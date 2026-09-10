@@ -1,0 +1,2779 @@
+/* =====================================================
+   BASIC RESET
+===================================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    font-family: "DM Sans", Arial, sans-serif;
+    color: #4b3033;
+
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(255, 220, 226, 0.8),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 80% 70%,
+            rgba(245, 203, 210, 0.7),
+            transparent 35%
+        ),
+        #f6eee7;
+
+    overflow-x: hidden;
+}
+
+
+/* =====================================================
+   FONTS
+===================================================== */
+
+@import url(
+    "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap"
+);
+
+
+/* =====================================================
+   FALLING PETALS
+===================================================== */
+
+.petals {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+
+    overflow: hidden;
+
+    z-index: 0;
+}
+
+.petal {
+    position: absolute;
+
+    top: -15vh;
+    left: var(--left);
+
+    width: var(--size);
+    height: calc(var(--size) * 1.35);
+
+    opacity: var(--opacity);
+
+    border-radius: 70% 30% 70% 30%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f3a7b5,
+            #e8869a
+        );
+
+    filter: blur(var(--blur));
+
+    box-shadow:
+        0 3px 8px rgba(130, 70, 80, 0.15);
+
+    animation:
+        falling-petal
+        var(--duration)
+        linear
+        var(--delay)
+        infinite;
+}
+
+@keyframes falling-petal {
+
+    0% {
+        transform:
+            translate3d(0, -10vh, 0)
+            rotate(0deg);
+    }
+
+    25% {
+        transform:
+            translate3d(
+                calc(var(--drift) * 0.25),
+                25vh,
+                0
+            )
+            rotate(90deg);
+    }
+
+    50% {
+        transform:
+            translate3d(
+                calc(var(--drift) * 0.6),
+                55vh,
+                0
+            )
+            rotate(180deg);
+    }
+
+    75% {
+        transform:
+            translate3d(
+                calc(var(--drift) * 0.8),
+                80vh,
+                0
+            )
+            rotate(270deg);
+    }
+
+    100% {
+        transform:
+            translate3d(
+                var(--drift),
+                120vh,
+                0
+            )
+            rotate(360deg);
+    }
+}
+
+
+/* =====================================================
+   SCRAPBOOK CONTAINER
+===================================================== */
+
+.scrapbook {
+    position: relative;
+
+    z-index: 1;
+
+    width: 100%;
+    min-height: 100vh;
+}
+
+
+/* =====================================================
+   SCRAPBOOK PAGE
+===================================================== */
+
+.scrapbook-page {
+    display: none;
+
+    position: relative;
+
+    width: min(92%, 1050px);
+    min-height: calc(100vh - 120px);
+
+    margin: 35px auto 110px;
+
+    padding: 70px 70px 90px;
+
+    background:
+        linear-gradient(
+            rgba(255,255,255,0.72),
+            rgba(255,250,247,0.88)
+        );
+
+    border: 1px solid rgba(130, 85, 80, 0.15);
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 25px 60px rgba(100, 65, 65, 0.16),
+        0 4px 12px rgba(100, 65, 65, 0.08);
+
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   PAPER TEXTURE
+===================================================== */
+
+.scrapbook-page::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0.18;
+
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(100,70,60,0.025) 4px
+        );
+}
+
+
+/* =====================================================
+   ACTIVE PAGE
+===================================================== */
+
+.scrapbook-page.active {
+    display: block;
+
+    animation:
+        page-enter
+        0.55s
+        ease;
+}
+
+@keyframes page-enter {
+
+    from {
+        opacity: 0;
+        transform:
+            translateX(35px)
+            rotateY(-8deg);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateX(0)
+            rotateY(0);
+    }
+}
+
+
+/* =====================================================
+   REAL PAPER PAGE TURN
+===================================================== */
+
+.scrapbook {
+    position: relative;
+
+    z-index: 1;
+
+    width: 100%;
+    min-height: calc(100vh - 35px);
+
+    perspective: 1800px;
+    perspective-origin: 50% 50%;
+}
+
+
+/* Keep pages stacked on top of each other */
+
+.scrapbook-page {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+
+    transform-origin: center center;
+
+    will-change: transform, opacity;
+
+    overflow: hidden;
+}
+
+
+/* Active page */
+
+.scrapbook-page.active {
+    display: block;
+
+    animation:
+        page-settle
+        0.65s
+        cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+
+/* =========================================================
+   REAL SCRAPBOOK PAGE TURN
+========================================================= */
+
+/* Gives the scrapbook a real book-like perspective */
+.scrapbook {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    min-height: calc(100vh - 35px);
+
+    display: grid;
+
+    perspective: 1800px;
+    perspective-origin: center center;
+}
+
+
+/* Every page occupies the same "book" position */
+.scrapbook-page {
+    grid-area: 1 / 1;
+
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+
+    transform-origin: left center;
+
+    will-change: transform, opacity;
+
+    overflow: hidden;
+
+    /* Important for overlapping pages */
+    z-index: 1;
+}
+
+
+/* ---------------------------------------------------------
+   NORMAL ACTIVE PAGE
+--------------------------------------------------------- */
+
+.scrapbook-page.active {
+    display: block;
+    z-index: 2;
+
+    animation:
+        scrapbook-page-settle
+        0.55s
+        cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+
+/* ---------------------------------------------------------
+   PAGE UNDERNEATH
+--------------------------------------------------------- */
+
+.scrapbook-page.page-under {
+    display: block;
+
+    z-index: 1;
+
+    opacity: 1;
+
+    transform:
+        translateZ(-12px)
+        scale(0.985);
+
+    animation: none;
+}
+
+
+/* ---------------------------------------------------------
+   CURRENT PAGE TURNING FORWARD
+--------------------------------------------------------- */
+
+.scrapbook-page.turning-forward {
+    display: block;
+
+    z-index: 10;
+
+    transform-origin: left center;
+
+    animation:
+        scrapbook-flip-forward
+        1.05s
+        cubic-bezier(0.65, 0, 0.35, 1)
+        forwards;
+}
+
+
+/* ---------------------------------------------------------
+   CURRENT PAGE TURNING BACKWARD
+--------------------------------------------------------- */
+
+.scrapbook-page.turning-back {
+    display: block;
+
+    z-index: 10;
+
+    transform-origin: right center;
+
+    animation:
+        scrapbook-flip-back
+        1.05s
+        cubic-bezier(0.65, 0, 0.35, 1)
+        forwards;
+}
+
+
+/* =========================================================
+   PAGE SETTLES FLAT
+========================================================= */
+
+@keyframes scrapbook-page-settle {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateZ(-35px)
+            scale(0.985);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateZ(0)
+            scale(1);
+    }
+}
+
+
+/* =========================================================
+   FORWARD PAGE FLIP
+========================================================= */
+
+@keyframes scrapbook-flip-forward {
+    0% {
+        opacity: 1;
+        transform: rotateY(0deg) skewY(0deg) scaleX(1);
+        border-radius: 0;
+    }
+
+    12% {
+        transform: rotateY(-15deg) skewY(1deg) scaleX(0.99);
+    }
+
+    25% {
+        transform: rotateY(-45deg) skewY(2deg) scaleX(0.96);
+    }
+
+    40% {
+        transform: rotateY(-80deg) skewY(3deg) scaleX(0.88);
+    }
+
+    50% {
+        transform: rotateY(-105deg) skewY(4deg) scaleX(0.78);
+    }
+
+    60% {
+        transform: rotateY(-125deg) skewY(3deg) scaleX(0.68);
+    }
+
+    72% {
+        transform: rotateY(-145deg) skewY(2deg) scaleX(0.78);
+    }
+
+    84% {
+        transform: rotateY(-165deg) skewY(1deg) scaleX(0.9);
+    }
+
+    94% {
+        transform: rotateY(-176deg) skewY(0deg) scaleX(0.98);
+    }
+
+    100% {
+        opacity: 0;
+        transform: rotateY(-180deg) skewY(0deg) scaleX(1);
+    }
+}
+
+/* =========================================================
+   BACKWARD PAGE FLIP
+========================================================= */
+
+@keyframes scrapbook-flip-back {
+    0% {
+        opacity: 1;
+        transform: rotateY(0deg) skewY(0deg) scaleX(1);
+        border-radius: 0;
+    }
+
+    12% {
+        transform: rotateY(15deg) skewY(-1deg) scaleX(0.99);
+    }
+
+    25% {
+        transform: rotateY(45deg) skewY(-2deg) scaleX(0.96);
+    }
+
+    40% {
+        transform: rotateY(80deg) skewY(-3deg) scaleX(0.88);
+    }
+
+    50% {
+        transform: rotateY(105deg) skewY(-4deg) scaleX(0.78);
+    }
+
+    60% {
+        transform: rotateY(125deg) skewY(-3deg) scaleX(0.68);
+    }
+
+    72% {
+        transform: rotateY(145deg) skewY(-2deg) scaleX(0.78);
+    }
+
+    84% {
+        transform: rotateY(165deg) skewY(-1deg) scaleX(0.9);
+    }
+
+    94% {
+        transform: rotateY(176deg) skewY(0deg) scaleX(0.98);
+    }
+
+    100% {
+        opacity: 0;
+        transform: rotateY(180deg) skewY(0deg) scaleX(1);
+    }
+}
+
+/* =========================================================
+   PAPER FOLD / SHADOW
+========================================================= */
+
+.scrapbook-page::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 18px;
+    pointer-events: none;
+    z-index: 20;
+    background: linear-gradient(
+        to right,
+        rgba(70, 40, 35, 0.18),
+        rgba(70, 40, 35, 0.05),
+        transparent
+    );
+    opacity: 0;
+}
+
+.scrapbook-page.turning-forward::before,
+.scrapbook-page.turning-back::before {
+    opacity: 1;
+}
+
+/* Forward flip shadow */
+.scrapbook-page.turning-forward::before {
+
+    right: 0;
+
+    background:
+        linear-gradient(
+            to left,
+            rgba(55, 35, 35, 0.28),
+            rgba(55, 35, 35, 0.12),
+            transparent
+        );
+
+    animation:
+        paper-fold-shadow
+        1.05s
+        ease
+        forwards;
+}
+
+
+/* Backward flip shadow */
+.scrapbook-page.turning-back::before {
+
+    left: 0;
+
+    background:
+        linear-gradient(
+            to right,
+            rgba(55, 35, 35, 0.28),
+            rgba(55, 35, 35, 0.12),
+            transparent
+        );
+
+    animation:
+        paper-fold-shadow
+        1.05s
+        ease
+        forwards;
+}
+
+
+@keyframes paper-fold-shadow {
+
+    0% {
+        opacity: 0;
+        transform: scaleX(0.3);
+    }
+
+    25% {
+        opacity: 0.9;
+        transform: scaleX(1);
+    }
+
+    55% {
+        opacity: 0.55;
+        transform: scaleX(0.9);
+    }
+
+    80% {
+        opacity: 0.2;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scaleX(0.35);
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .scrapbook-page.active,
+    .scrapbook-page.turning-forward,
+    .scrapbook-page.turning-back {
+        animation: none;
+    }
+}
+
+
+/* =========================================
+   PAGE ENTER
+========================================= */
+
+@keyframes page-settle {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateZ(-35px)
+            rotateY(-3deg)
+            scale(0.985);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateZ(0)
+            rotateY(0)
+            scale(1);
+    }
+}
+
+
+/* =========================================
+   FORWARD PAPER TURN
+========================================= */
+
+@keyframes real-page-forward {
+
+    0% {
+        opacity: 1;
+
+        transform:
+            rotateY(0deg)
+            translateZ(0)
+            scale(1);
+
+        filter:
+            brightness(1);
+    }
+
+    20% {
+        transform:
+            rotateY(-18deg)
+            translateZ(12px)
+            scale(0.995);
+
+        filter:
+            brightness(0.98);
+    }
+
+    50% {
+        transform:
+            rotateY(-88deg)
+            translateZ(35px)
+            scale(0.985);
+
+        filter:
+            brightness(0.92);
+    }
+
+    75% {
+        transform:
+            rotateY(-145deg)
+            translateZ(18px)
+            scale(0.99);
+
+        filter:
+            brightness(0.96);
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            rotateY(-180deg)
+            translateZ(0)
+            scale(1);
+
+        filter:
+            brightness(1);
+    }
+}
+
+
+/* =========================================
+   BACKWARD PAPER TURN
+========================================= */
+
+@keyframes real-page-back {
+
+    0% {
+        opacity: 1;
+
+        transform:
+            rotateY(0deg)
+            translateZ(0)
+            scale(1);
+
+        filter:
+            brightness(1);
+    }
+
+    20% {
+        transform:
+            rotateY(18deg)
+            translateZ(12px)
+            scale(0.995);
+
+        filter:
+            brightness(0.98);
+    }
+
+    50% {
+        transform:
+            rotateY(88deg)
+            translateZ(35px)
+            scale(0.985);
+
+        filter:
+            brightness(0.92);
+    }
+
+    75% {
+        transform:
+            rotateY(145deg)
+            translateZ(18px)
+            scale(0.99);
+
+        filter:
+            brightness(0.96);
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            rotateY(180deg)
+            translateZ(0)
+            scale(1);
+
+        filter:
+            brightness(1);
+    }
+}
+
+
+/* =====================================================
+   PAPER EDGE + TURNING SHADOW
+===================================================== */
+
+.scrapbook-page.turning-forward::before,
+.scrapbook-page.turning-back::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    width: 18%;
+
+    pointer-events: none;
+
+    z-index: 20;
+
+    opacity: 0;
+
+    transition: opacity 0.2s ease;
+}
+
+
+/* Shadow near the edge being turned */
+
+.scrapbook-page.turning-forward::before {
+    right: 0;
+
+    background:
+        linear-gradient(
+            to left,
+            rgba(60, 35, 35, 0.22),
+            rgba(60, 35, 35, 0.08),
+            transparent
+        );
+
+    animation:
+        paper-shadow-forward
+        0.75s
+        ease
+        forwards;
+}
+
+
+.scrapbook-page.turning-back::before {
+    left: 0;
+
+    background:
+        linear-gradient(
+            to right,
+            rgba(60, 35, 35, 0.22),
+            rgba(60, 35, 35, 0.08),
+            transparent
+        );
+
+    animation:
+        paper-shadow-back
+        0.75s
+        ease
+        forwards;
+}
+
+
+@keyframes paper-shadow-forward {
+
+    0% {
+        opacity: 0;
+        transform: scaleX(0.4);
+    }
+
+    35% {
+        opacity: 1;
+        transform: scaleX(1);
+    }
+
+    70% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scaleX(0.5);
+    }
+}
+
+
+@keyframes paper-shadow-back {
+
+    0% {
+        opacity: 0;
+        transform: scaleX(0.4);
+    }
+
+    35% {
+        opacity: 1;
+        transform: scaleX(1);
+    }
+
+    70% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scaleX(0.5);
+    }
+}
+
+/* =====================================================
+   PAGE CONTENT
+===================================================== */
+
+.page-content {
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 850px;
+
+    margin: 0 auto;
+
+    text-align: center;
+}
+
+
+/* =====================================================
+   SMALL NOTES
+===================================================== */
+
+.tiny-note {
+    margin-bottom: 18px;
+
+    font-size: 0.78rem;
+
+    font-weight: 600;
+
+    letter-spacing: 0.18em;
+
+    text-transform: uppercase;
+
+    color: #a66b74;
+}
+
+
+/* =====================================================
+   HEADINGS
+===================================================== */
+
+h1,
+h2,
+h3 {
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+}
+
+h1 {
+    margin: 25px 0;
+
+    font-size:
+        clamp(3rem, 8vw, 6rem);
+
+    line-height: 0.95;
+
+    font-weight: 600;
+
+    color: #57373b;
+}
+
+h1 span {
+    color: #b65f70;
+    font-style: italic;
+}
+
+h2 {
+    margin-bottom: 35px;
+
+    font-size:
+        clamp(2.3rem, 5vw, 4rem);
+
+    line-height: 1;
+
+    color: #57373b;
+}
+
+h3 {
+    color: #634146;
+}
+
+
+/* =====================================================
+   BODY TEXT
+===================================================== */
+
+.message {
+    max-width: 600px;
+
+    margin: 0 auto 30px;
+
+    font-size: 1rem;
+
+    line-height: 1.8;
+
+    color: #765c60;
+}
+
+
+/* =====================================================
+   COVER PAGE
+===================================================== */
+
+.cover-page {
+    min-height:
+        calc(100vh - 260px);
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+}
+
+
+/* =====================================================
+   PHOTO FRAME
+===================================================== */
+
+.photo-frame {
+    width: min(260px, 65vw);
+
+    padding: 10px;
+
+    background: white;
+
+    box-shadow:
+        0 12px 25px rgba(90, 50, 55, 0.18);
+
+    transform:
+        rotate(-3deg);
+
+    margin-bottom: 10px;
+}
+
+.photo-frame img {
+    display: block;
+
+    width: 100%;
+
+    aspect-ratio: 1 / 1;
+
+    object-fit: cover;
+}
+
+
+/* =====================================================
+   BUTTON
+===================================================== */
+
+button {
+    font-family: inherit;
+}
+
+#enter-button {
+    border: none;
+
+    padding: 15px 28px;
+
+    border-radius: 999px;
+
+    background: #a95e6d;
+
+    color: white;
+
+    font-size: 0.95rem;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 20px rgba(120, 60, 70, 0.2);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+#enter-button:hover {
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 12px 25px rgba(120, 60, 70, 0.25);
+}
+
+#enter-button:active {
+    transform:
+        translateY(0);
+}
+
+
+/* =====================================================
+   MEMORY CARDS
+===================================================== */
+
+.memory-card {
+    position: relative;
+
+    max-width: 750px;
+
+    margin: 0 auto 25px;
+
+    padding: 30px;
+
+    text-align: left;
+
+    background:
+        rgba(255, 255, 255, 0.78);
+
+    border:
+        1px solid rgba(150, 100, 100, 0.12);
+
+    box-shadow:
+        0 8px 22px rgba(100, 65, 65, 0.08);
+
+    border-radius: 5px;
+}
+
+.memory-card h3 {
+    margin-bottom: 15px;
+
+    font-size: 1.55rem;
+}
+
+.memory-card p:not(.memory-date) {
+    color: #745d60;
+
+    line-height: 1.8;
+}
+
+.memory-date {
+    margin-bottom: 8px;
+
+    font-size: 0.72rem;
+
+    font-weight: 600;
+
+    letter-spacing: 0.14em;
+
+    text-transform: uppercase;
+
+    color: #b87580;
+}
+
+
+/* =====================================================
+   PHOTO GRID
+===================================================== */
+
+.photo-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 30px;
+
+    margin-top: 40px;
+}
+
+.photo-card {
+    position: relative;
+
+    padding: 12px 12px 18px;
+
+    background: white;
+
+    box-shadow:
+        0 10px 25px rgba(90, 60, 60, 0.15);
+
+    transform:
+        rotate(-1deg);
+
+    transition:
+        transform 0.25s ease;
+}
+
+.photo-card:nth-child(2) {
+    transform:
+        rotate(2deg);
+}
+
+.photo-card:nth-child(3) {
+    transform:
+        rotate(1deg);
+}
+
+.photo-card:nth-child(4) {
+    transform:
+        rotate(-2deg);
+}
+
+.photo-card:hover {
+    transform:
+        rotate(0deg)
+        translateY(-5px);
+}
+
+.photo-card p {
+    padding-top: 12px;
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 1rem;
+
+    color: #68474b;
+}
+
+
+/* =====================================================
+   PHOTO PLACEHOLDER
+===================================================== */
+
+.photo-placeholder {
+    width: 100%;
+
+    aspect-ratio: 1 / 1;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f5d9df,
+            #edd0d4
+        );
+
+    color: #b86c7b;
+
+    font-size: 2rem;
+}
+
+.photo-placeholder span {
+    opacity: 0.6;
+}
+
+.photo-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+
+/* =====================================================
+   MEDIA BOX
+===================================================== */
+
+.media-box {
+    max-width: 750px;
+
+    margin: 0 auto 30px;
+
+    padding: 35px;
+
+    background:
+        rgba(255,255,255,0.8);
+
+    border:
+        1px solid rgba(150,100,100,0.12);
+
+    box-shadow:
+        0 10px 25px rgba(90,60,60,0.1);
+
+    border-radius: 6px;
+}
+
+.media-box h3 {
+    margin-bottom: 12px;
+
+    font-size: 1.7rem;
+}
+
+.media-box p {
+    margin-bottom: 20px;
+
+    color: #765c60;
+}
+
+
+/* =====================================================
+   VIDEO
+===================================================== */
+
+#video-preview {
+    display: block;
+
+    width: 100%;
+
+    max-height: 500px;
+
+    margin-bottom: 15px;
+
+    background: #241c1d;
+
+    border-radius: 5px;
+}
+
+
+/* =====================================================
+   SPOTIFY
+===================================================== */
+
+#spotify-player {
+    width: 100%;
+}
+
+#spotify-player iframe {
+    width: 100%;
+
+    min-height: 152px;
+
+    border: none;
+
+    border-radius: 12px;
+}
+
+
+/* =====================================================
+   LETTER
+===================================================== */
+
+.letter {
+    max-width: 750px;
+
+    margin: 0 auto;
+
+    padding: 45px;
+
+    text-align: left;
+
+    background:
+        #fffaf4;
+
+    border:
+        1px solid rgba(130,90,80,0.12);
+
+    box-shadow:
+        0 12px 30px rgba(90,60,60,0.1);
+
+    line-height: 1.9;
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 1.05rem;
+}
+
+.letter p {
+    margin-bottom: 22px;
+}
+
+
+/* =====================================================
+   FINAL SURPRISE
+===================================================== */
+
+.final-surprise {
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255,220,225,0.75),
+            rgba(255,250,247,0.95)
+        );
+}
+
+.final-message {
+    max-width: 650px;
+
+    margin: 30px auto 0;
+
+    white-space: pre-line;
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 1.15rem;
+
+    line-height: 2;
+
+    color: #69464c;
+}
+
+
+/* =====================================================
+   ROSES
+===================================================== */
+
+.rose-garden {
+    margin: 20px 0;
+
+    font-size: 3.5rem;
+
+    letter-spacing: 0.3em;
+
+    animation:
+        roses-bloom
+        2s
+        ease;
+}
+
+@keyframes roses-bloom {
+
+    from {
+        opacity: 0;
+
+        transform:
+            scale(0.7);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            scale(1);
+    }
+}
+
+
+/* =====================================================
+   BOOK CONTROLS
+===================================================== */
+
+.book-controls {
+    position: fixed;
+
+    left: 50%;
+
+    bottom: 20px;
+
+    transform:
+        translateX(-50%);
+
+    z-index: 20;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 10px 14px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,250,247,0.94);
+
+    border:
+        1px solid rgba(130,90,90,0.15);
+
+    box-shadow:
+        0 10px 30px rgba(80,50,50,0.15);
+
+    backdrop-filter:
+        blur(12px);
+}
+
+.book-button {
+    border: none;
+
+    padding: 9px 15px;
+
+    border-radius: 999px;
+
+    background: transparent;
+
+    color: #80515a;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.book-button:hover:not(:disabled) {
+    background:
+        rgba(185,110,125,0.12);
+
+    transform:
+        translateY(-1px);
+}
+
+.book-button:disabled {
+    opacity: 0.35;
+
+    cursor: not-allowed;
+}
+
+.page-count {
+    min-width: 75px;
+
+    text-align: center;
+
+    font-size: 0.8rem;
+
+    color: #8c686d;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    .scrapbook-page {
+        width: 94%;
+
+        min-height:
+            calc(100vh - 105px);
+
+        margin:
+            18px auto 95px;
+
+        padding:
+            45px 22px 70px;
+
+        border-radius: 6px;
+    }
+
+    .cover-page {
+        min-height:
+            calc(100vh - 180px);
+    }
+
+    h1 {
+        font-size:
+            clamp(2.8rem, 14vw, 4.5rem);
+    }
+
+    h2 {
+        font-size:
+            clamp(2.1rem, 11vw, 3rem);
+    }
+
+    .message {
+        font-size: 0.95rem;
+
+        line-height: 1.7;
+    }
+
+    .memory-card {
+        padding: 22px;
+
+        margin-bottom: 18px;
+    }
+
+    .memory-card h3 {
+        font-size: 1.35rem;
+    }
+
+    .photo-grid {
+        grid-template-columns: 1fr;
+
+        gap: 25px;
+    }
+
+    .media-box {
+        padding: 22px;
+    }
+
+    .letter {
+        padding: 28px 22px;
+
+        font-size: 1rem;
+    }
+
+    .book-controls {
+        width: calc(100% - 24px);
+
+        justify-content: space-between;
+
+        gap: 5px;
+
+        bottom: 10px;
+    }
+
+    .book-button {
+        padding:
+            9px 10px;
+
+        font-size: 0.78rem;
+    }
+
+    .page-count {
+        min-width: 65px;
+
+        font-size: 0.72rem;
+    }
+
+    .rose-garden {
+        font-size: 2.5rem;
+    }
+}
+
+
+/* =====================================================
+   SMALL PHONES
+===================================================== */
+
+@media (max-width: 400px) {
+
+    .scrapbook-page {
+        padding:
+            35px 17px 70px;
+    }
+
+    .photo-frame {
+        width: 210px;
+    }
+
+    .book-button {
+        font-size: 0.7rem;
+    }
+}
+
+
+/* =====================================================
+   OPEN WHEN LETTERS
+===================================================== */
+
+.open-when-card {
+    text-align: center;
+}
+
+.open-when-button {
+    width: 100%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    padding: 20px;
+
+    color: inherit;
+    font-family: inherit;
+
+    transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
+}
+
+.open-when-button:hover {
+    transform: translateY(-3px);
+}
+
+.open-when-button span {
+    font-size: 2.5rem;
+    transition: transform 0.4s ease;
+}
+
+.open-when-button strong {
+    font-family: Georgia, serif;
+    font-size: 1.1rem;
+}
+
+
+/* Letter is hidden */
+
+.open-when-message {
+    max-height: 0;
+    overflow: hidden;
+
+    opacity: 0;
+
+    padding: 0 20px;
+
+    transform: translateY(-10px);
+
+    transition:
+        max-height 0.6s ease,
+        opacity 0.5s ease,
+        transform 0.5s ease,
+        padding 0.5s ease;
+}
+
+
+/* Letter is opened */
+
+.open-when-message.open {
+    max-height: 500px;
+
+    opacity: 1;
+
+    padding: 20px;
+
+    transform: translateY(0);
+}
+
+
+/* Change envelope when opened */
+
+.open-when-button.opened span {
+    transform: rotate(-8deg) scale(1.15);
+}
+
+
+
+/* =====================================================
+   OPEN WHEN — LOVE LETTER DESIGN
+===================================================== */
+
+.open-when-card {
+    background: rgba(255, 248, 244, 0.9);
+    border: 1px solid rgba(184, 108, 123, 0.18);
+    border-radius: 18px;
+    padding: 10px;
+    margin: 20px 0;
+
+    box-shadow:
+        0 8px 25px rgba(90, 55, 45, 0.08);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.open-when-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 30px rgba(90, 55, 45, 0.12);
+}
+
+
+/* Envelope button */
+
+.open-when-button {
+    position: relative;
+
+    min-height: 90px;
+
+    border-radius: 14px;
+}
+
+.open-when-button span {
+    font-size: 2.8rem;
+
+    filter:
+        drop-shadow(
+            0 3px 3px rgba(90, 55, 45, 0.12)
+        );
+}
+
+.open-when-button strong {
+    color: #70434d;
+
+    font-size: 1.05rem;
+}
+
+
+/* Letter paper */
+
+.open-when-message {
+    background:
+        linear-gradient(
+            rgba(255, 255, 255, 0.5),
+            rgba(255, 255, 255, 0.5)
+        );
+
+    border-top: 1px dashed rgba(184, 108, 123, 0.3);
+
+    color: #5a4039;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 1rem;
+
+    line-height: 1.8;
+
+    text-align: left;
+
+    border-radius: 10px;
+}
+
+.open-when-message p {
+    margin: 0;
+}
+
+
+/* Little animation when opened */
+
+.open-when-button.opened span {
+    animation:
+        letterBounce 0.5s ease;
+}
+
+@keyframes letterBounce {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.25) rotate(-8deg);
+    }
+
+    100% {
+        transform: scale(1.15) rotate(-8deg);
+    }
+
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .open-when-card {
+        margin: 15px 0;
+    }
+
+    .open-when-button {
+        min-height: 80px;
+        padding: 15px;
+    }
+
+    .open-when-button span {
+        font-size: 2.4rem;
+    }
+
+    .open-when-button strong {
+        font-size: 0.95rem;
+    }
+
+    .open-when-message {
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+
+}
+
+
+/* =====================================================
+   PAGE 9 — YOUR LETTER
+===================================================== */
+
+.letter {
+    position: relative;
+
+    background:
+        linear-gradient(
+            rgba(255, 250, 242, 0.95),
+            rgba(255, 247, 238, 0.95)
+        );
+
+    border: 1px solid rgba(160, 110, 80, 0.18);
+
+    border-radius: 4px;
+
+    padding: 35px 30px;
+
+    margin: 25px auto;
+
+    max-width: 700px;
+
+    color: #5a4039;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 1.05rem;
+
+    line-height: 2;
+
+    text-align: left;
+
+    box-shadow:
+        0 10px 25px rgba(80, 50, 40, 0.1);
+
+    transform: rotate(-0.5deg);
+}
+
+
+/* Decorative letter corners */
+
+.letter::before {
+    content: "♡";
+
+    position: absolute;
+
+    top: 12px;
+    right: 18px;
+
+    font-size: 1.3rem;
+
+    opacity: 0.45;
+}
+
+
+.letter::after {
+    content: "With love ♡";
+
+    display: block;
+
+    margin-top: 25px;
+
+    text-align: right;
+
+    font-family:
+        "Brush Script MT",
+        "Segoe Script",
+        cursive;
+
+    font-size: 1.2rem;
+
+    color: #9b5f6c;
+
+    opacity: 0.8;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .letter {
+        padding: 25px 20px;
+
+        font-size: 0.98rem;
+
+        line-height: 1.8;
+    }
+
+}
+
+
+
+/* =====================================================
+   PAGE 10 — MORE TO COME
+===================================================== */
+
+.future-page {
+    text-align: center;
+}
+
+.future-note {
+    position: relative;
+
+    max-width: 600px;
+
+    margin: 35px auto;
+
+    padding: 45px 30px;
+
+    background:
+        rgba(255, 249, 244, 0.9);
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 10px 30px rgba(80, 50, 40, 0.08);
+
+    border: 1px solid rgba(184, 108, 123, 0.15);
+}
+
+.future-star {
+    font-size: 2rem;
+
+    margin-bottom: 20px;
+
+    opacity: 0.7;
+
+    animation:
+        gentleFloat 3s ease-in-out infinite;
+}
+
+.future-main {
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 1.35rem;
+
+    line-height: 1.7;
+
+    color: #70434d;
+
+    margin-bottom: 25px;
+}
+
+.future-text {
+    font-size: 1rem;
+
+    line-height: 1.9;
+
+    color: #6a5048;
+
+    white-space: pre-line;
+}
+
+.future-line {
+    width: 60px;
+
+    height: 1px;
+
+    margin: 30px auto;
+
+    background: rgba(184, 108, 123, 0.4);
+}
+
+.future-ending {
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 1.1rem;
+
+    line-height: 1.8;
+
+    color: #80505b;
+}
+
+@keyframes gentleFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .future-note {
+        padding: 35px 22px;
+    }
+
+    .future-main {
+        font-size: 1.15rem;
+    }
+
+    .future-text {
+        font-size: 0.95rem;
+    }
+
+}
+
+
+/* =====================================================
+   PAGE 11 — FINAL SURPRISE
+===================================================== */
+
+.final-page {
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.final-rose {
+    font-size: 4rem;
+
+    margin: 15px 0 20px;
+
+    animation:
+        roseBloom 2s ease forwards;
+}
+
+.final-page h2 {
+    color: #70434d;
+
+    line-height: 1.4;
+
+    max-width: 600px;
+}
+
+.final-message {
+    max-width: 600px;
+
+    margin: 25px auto;
+
+    color: #5a4039;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 1.05rem;
+
+    line-height: 1.9;
+}
+
+.final-message p {
+    margin-bottom: 22px;
+}
+
+.final-highlight {
+    color: #8d5260;
+
+    font-size: 1.15rem;
+
+    font-style: italic;
+}
+
+.final-signature {
+    margin-top: 15px;
+
+    font-family:
+        "Brush Script MT",
+        "Segoe Script",
+        cursive;
+
+    font-size: 1.5rem;
+
+    color: #9b5f6c;
+}
+
+.restart-button {
+    margin-top: 30px;
+
+    padding: 12px 25px;
+
+    border: 1px solid rgba(184, 108, 123, 0.3);
+
+    border-radius: 30px;
+
+    background: rgba(255, 248, 244, 0.8);
+
+    color: #70434d;
+
+    font-family: inherit;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.restart-button:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 20px rgba(80, 50, 40, 0.1);
+}
+
+@keyframes roseBloom {
+
+    0% {
+        opacity: 0;
+        transform: scale(0.4) rotate(-20deg);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale(1.15) rotate(5deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .final-rose {
+        font-size: 3.2rem;
+    }
+
+    .final-message {
+        font-size: 0.98rem;
+        padding: 0 10px;
+    }
+
+    .final-highlight {
+        font-size: 1.05rem;
+    }
+
+}
+
+
+/* =========================================
+   INTRO ANIMATION
+========================================= */
+
+#intro-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(circle at center,
+            rgba(255, 240, 235, 0.95),
+            rgba(247, 224, 220, 0.98) 55%,
+            rgba(235, 202, 198, 1));
+
+    overflow: hidden;
+
+    opacity: 1;
+    visibility: visible;
+
+    transition:
+        opacity 1.2s ease,
+        visibility 1.2s ease;
+}
+
+
+/* When the intro is finished */
+#intro-screen.hide-intro {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+
+/* =========================================
+   INTRO CONTENT
+========================================= */
+
+.intro-content {
+    position: relative;
+    z-index: 2;
+
+    width: min(90%, 500px);
+
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* Small handwritten introduction */
+
+.intro-small {
+    margin: 0 0 28px;
+
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.05rem;
+    font-style: italic;
+
+    color: #7c5550;
+
+    opacity: 0;
+
+    animation: introFadeUp 1.2s ease forwards;
+    animation-delay: 0.5s;
+}
+
+
+/* =========================================
+   ENVELOPE
+========================================= */
+
+.intro-envelope {
+    position: relative;
+
+    width: 150px;
+    height: 105px;
+
+    margin: 10px 0 35px;
+
+    filter: drop-shadow(0 15px 18px rgba(90, 50, 45, 0.16));
+
+    opacity: 0;
+    transform: translateY(15px) scale(0.9);
+
+    animation: envelopeAppear 1.2s ease forwards;
+    animation-delay: 1s;
+}
+
+
+.envelope-back {
+    position: absolute;
+    inset: 0;
+
+    background: #fff8f2;
+
+    border-radius: 5px;
+
+    border: 1px solid rgba(130, 80, 70, 0.15);
+}
+
+
+/* Envelope diagonal folds */
+
+.envelope-back::before,
+.envelope-back::after {
+    content: "";
+
+    position: absolute;
+    bottom: 0;
+
+    width: 72%;
+    height: 1px;
+
+    background: rgba(130, 80, 70, 0.18);
+}
+
+
+.envelope-back::before {
+    left: -8px;
+    transform: rotate(35deg);
+    transform-origin: left;
+}
+
+
+.envelope-back::after {
+    right: -8px;
+    transform: rotate(-35deg);
+    transform-origin: right;
+}
+
+
+/* Envelope flap */
+
+.envelope-flap {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 0;
+    height: 0;
+
+    border-left: 75px solid transparent;
+    border-right: 75px solid transparent;
+    border-top: 58px solid #f1c9c4;
+
+    transform-origin: top center;
+
+    z-index: 3;
+
+    animation: envelopeOpen 1.5s ease forwards;
+    animation-delay: 2.2s;
+}
+
+
+/* Letter coming out */
+
+.envelope-letter {
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 12px;
+
+    width: 105px;
+    height: 75px;
+
+    transform:
+        translateX(-50%)
+        translateY(25px);
+
+    background: #fffdf8;
+
+    border: 1px solid rgba(120, 80, 70, 0.12);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #b46f69;
+
+    z-index: 2;
+
+    opacity: 0;
+
+    animation: letterRise 1.5s ease forwards;
+    animation-delay: 2.3s;
+}
+
+
+.envelope-letter span {
+    font-size: 1.8rem;
+
+    opacity: 0;
+
+    animation: heartAppear 1s ease forwards;
+    animation-delay: 3.2s;
+}
+
+
+/* =========================================
+   INTRO TITLE
+========================================= */
+
+.intro-title {
+    margin: 0;
+
+    font-family: "Cormorant Garamond", Georgia, serif;
+
+    font-size: clamp(2.2rem, 8vw, 4rem);
+
+    line-height: 1;
+
+    font-weight: 500;
+
+    color: #5f3d3a;
+
+    opacity: 0;
+
+    transform: translateY(15px);
+
+    animation: introFadeUp 1.3s ease forwards;
+    animation-delay: 2.8s;
+}
+
+
+/* Birthday name */
+
+.intro-name {
+    margin: 20px 0 30px;
+
+    font-family: "Cormorant Garamond", Georgia, serif;
+
+    font-size: 1.15rem;
+
+    color: #9b625d;
+
+    opacity: 0;
+
+    animation: introFadeUp 1s ease forwards;
+    animation-delay: 3.8s;
+}
+
+
+/* =========================================
+   START BUTTON
+========================================= */
+
+#start-scrapbook {
+    border: 1px solid rgba(120, 70, 65, 0.3);
+
+    background: rgba(255, 250, 247, 0.75);
+
+    color: #69433f;
+
+    padding: 13px 25px;
+
+    border-radius: 50px;
+
+    font-family: inherit;
+
+    font-size: 0.9rem;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 25px rgba(100, 60, 55, 0.12);
+
+    opacity: 0;
+
+    transform: translateY(10px);
+
+    animation:
+        introButtonAppear 1s ease forwards,
+        buttonFloat 3s ease-in-out infinite;
+
+    animation-delay: 4.5s, 5.5s;
+
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+#start-scrapbook:hover {
+    transform: translateY(-3px);
+
+    background: rgba(255, 255, 255, 0.95);
+
+    box-shadow:
+        0 12px 30px rgba(100, 60, 55, 0.18);
+}
+
+
+#start-scrapbook:active {
+    transform: scale(0.96);
+}
+
+
+/* =========================================
+   BLURRED INTRO PETALS
+========================================= */
+
+.intro-petals,
+.intro-petals::before,
+.intro-petals::after {
+    position: absolute;
+
+    inset: -20%;
+
+    pointer-events: none;
+}
+
+
+.intro-petals::before,
+.intro-petals::after {
+    content: "✿   ❀      ✿       ❀    ✿       ❀";
+
+    font-size: 25px;
+
+    letter-spacing: 45px;
+
+    line-height: 130px;
+
+    color: rgba(170, 100, 105, 0.25);
+
+    filter: blur(3px);
+
+    animation: petalsDrift 18s linear infinite;
+}
+
+
+.intro-petals::after {
+    font-size: 17px;
+
+    letter-spacing: 70px;
+
+    color: rgba(130, 80, 85, 0.18);
+
+    filter: blur(5px);
+
+    animation-duration: 25s;
+
+    animation-direction: reverse;
+}
+
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes introFadeUp {
+
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+@keyframes envelopeAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.88);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+
+@keyframes envelopeOpen {
+
+    0% {
+        transform: rotateX(0deg);
+    }
+
+    100% {
+        transform: rotateX(180deg);
+    }
+
+}
+
+
+@keyframes letterRise {
+
+    0% {
+        opacity: 0;
+        transform:
+            translateX(-50%)
+            translateY(25px);
+    }
+
+    100% {
+        opacity: 1;
+        transform:
+            translateX(-50%)
+            translateY(-15px);
+    }
+
+}
+
+
+@keyframes heartAppear {
+
+    from {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
+
+
+@keyframes introButtonAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+@keyframes buttonFloat {
+
+    0%,
+    100% {
+        box-shadow:
+            0 8px 25px rgba(100, 60, 55, 0.12);
+    }
+
+    50% {
+        box-shadow:
+            0 12px 32px rgba(100, 60, 55, 0.2);
+    }
+
+}
+
+
+@keyframes petalsDrift {
+
+    0% {
+        transform:
+            translate3d(-2%, -5%, 0)
+            rotate(0deg);
+    }
+
+    50% {
+        transform:
+            translate3d(3%, 4%, 0)
+            rotate(10deg);
+    }
+
+    100% {
+        transform:
+            translate3d(-2%, 10%, 0)
+            rotate(20deg);
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .intro-small {
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+    }
+
+    .intro-envelope {
+        width: 130px;
+        height: 92px;
+        margin-bottom: 30px;
+    }
+
+    .envelope-flap {
+        border-left-width: 65px;
+        border-right-width: 65px;
+        border-top-width: 52px;
+    }
+
+    .envelope-letter {
+        width: 90px;
+        height: 65px;
+    }
+
+    .intro-title {
+        font-size: 2.4rem;
+    }
+
+    .intro-name {
+        font-size: 1rem;
+    }
+
+    #start-scrapbook {
+        padding: 12px 22px;
+        font-size: 0.85rem;
+    }
+
+}
+
+
+/* =====================================================
+   REAL PAPER DEPTH
+===================================================== */
+
+.scrapbook-page {
+    box-shadow:
+        0 25px 60px rgba(100, 65, 65, 0.16),
+        0 8px 18px rgba(80, 50, 50, 0.10);
+
+    border: 1px solid rgba(130, 85, 80, 0.15);
+}
+
+
+/* Slight paper highlight */
+
+.scrapbook-page::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            105deg,
+            rgba(255,255,255,0.12),
+            transparent 35%,
+            rgba(255,255,255,0.08)
+        );
+
+    opacity: 0.7;
+
+    z-index: 5;
+}

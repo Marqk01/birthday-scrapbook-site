@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Birthday Scrapbook — Editor</title>
+
+    <link rel="stylesheet" href="admin.css">
+
+</head>
+
+
+<body>
+
+    <header class="admin-header">
+
+        <div>
+            <p class="admin-label">
+                BIRTHDAY SCRAPBOOK
+            </p>
+
+            <h1>
+                Editor ♡
+            </h1>
+        </div>
+
+        <a href="index.html" target="_blank">
+            Preview Website ↗
+        </a>
+
+    </header>
+
+
+
+    <main class="admin-container">
+
+
+        <!-- =========================
+             PAGE 1
+        ========================== -->
+
+        <section class="editor-card">
+
+            <div class="editor-title">
+
+                <span class="page-number">
+                    01
+                </span>
+
+                <div>
+                    <h2>
+                        Cover
+                    </h2>
+
+                    <p>
+                        The first thing they see.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <label>
+                Small text
+
+                <input
+                    type="text"
+                    id="cover-note"
+                    placeholder="A little world made just for you"
+                >
+
+            </label>
+
+
+            <label>
+    Cover Title — Line 1
+
+    <input
+        type="text"
+        id="cover-title"
+        placeholder="Happy Birthday,"
+    >
+</label>
+
+
+<label>
+    Cover Title — Line 2
+
+    <input
+        type="text"
+        id="cover-title-2"
+        placeholder="My Love"
+    >
+</label>
+
+            <label>
+                Message
+
+                <textarea
+                    id="cover-message"
+                    placeholder="Write your message..."
+                ></textarea>
+
+            </label>
+
+            <label>
+    Cover Photo
+
+    <input
+        type="file"
+        id="cover-photo"
+        accept="image/*"
+    >
+</label>
+
+<div id="cover-photo-preview"></div>
+
+<button
+    type="button"
+    id="remove-cover-photo"
+    class="remove-photo-button"
+>
+    Remove Cover Photo
+</button>
+
+        </section>
+
+
+
+        <!-- =========================
+             PAGE 3
+        ========================== -->
+
+        <section class="editor-card">
+
+            <div class="editor-title">
+
+                <span class="page-number">
+                    03
+                </span>
+
+                <div>
+                    <h2>
+                        The Beginning
+                    </h2>
+
+                    <p>
+                        Your story.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <label>
+
+                Memory title
+
+                <input
+                    type="text"
+                    id="beginning-title"
+                    placeholder="The day I started having feelings"
+                >
+
+            </label>
+
+
+            <label>
+
+                Memory text
+
+                <textarea
+                    id="beginning-text"
+                    rows="7"
+                    placeholder="Write your story..."
+                ></textarea>
+
+            </label>
+
+
+            <label>
+
+                Second memory title
+
+                <input
+                    type="text"
+                    id="beginning-title-2"
+                    placeholder="Home is wherever you are"
+                >
+
+            </label>
+
+
+            <label>
+
+                Second memory text
+
+                <textarea
+                    id="beginning-text-2"
+                    rows="7"
+                    placeholder="Write your second message..."
+                ></textarea>
+
+            </label>
+
+        </section>
+
+
+
+        <!-- =========================
+             PAGE 4
+        ========================== -->
+
+        <section class="editor-card">
+
+            <div class="editor-title">
+
+                <span class="page-number">
+                    04
+                </span>
+
+                <div>
+                    <h2>
+                        Our Little Moments
+                    </h2>
+
+                    <p>
+                        Manage your 10 memories.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="photo-editor-grid">
+
+
+               <div class="photo-editor">
+
+    <strong>
+        Photo 01
+    </strong>
+
+    <input
+        type="file"
+        id="photo-1"
+        accept="image/*"
+    >
+
+    <input
+        type="text"
+        placeholder="Caption"
+        class="caption-input"
+    >
+
+    <div id="photo-preview-1"></div>
+
+</div>
+
+
+<div class="photo-editor">
+
+    <strong>
+        Photo 02
+    </strong>
+
+    <input
+        type="file"
+        id="photo-2"
+        accept="image/*"
+    >
+
+    <input
+        type="text"
+        placeholder="Caption"
+        class="caption-input"
+    >
+
+    <div id="photo-preview-2"></div>
+
+</div>
+
+
+<div class="photo-editor">
+
+    <strong>Photo 03</strong>
+
+    <input
+        type="file"
+        id="photo-3"
+        accept="image/*"
+    >
+
+    <input
+        type="text"
+        placeholder="Caption"
+        class="caption-input"
+    >
+
+    <div id="photo-preview-3"></div>
+
+</div>
+
+
+<div class="photo-editor">
+
+    <strong>Photo 04</strong>
+
+    <input
+        type="file"
+        id="photo-4"
+        accept="image/*"
+    >
+
+    <input
+        type="text"
+        placeholder="Caption"
+        class="caption-input"
+    >
+
+    <div id="photo-preview-4"></div>
+
+</div>
+
+
+<div class="photo-editor">
+
+    <strong>Photo 05</strong>
+
+    <input
+        type="file"
+        id="photo-5"
+        accept="image/*"
+    >
+
+    <input
+        type="text"
+        placeholder="Caption"
+        class="caption-input"
+    >
+
+    <div id="photo-preview-5"></div>
+
+</div>
+
+
+<div class="photo-editor">
+
+    <strong>Photo 06</strong>
+
+    <input
+        type="file"
+        id="photo-6"
+        accept="image/*"
+    >
+
+    <input
+        type="text"
+        placeholder="Caption"
+        class="caption-input"
+    >
+
+    <div id="photo-preview-6"></div>
+
+</div>
+
+
+<div class="photo-editor">
+
+    <strong>Photo 07</strong>
+
+    <input
+        type="file"
+        id="photo-7"
+        accept="image/*"
+    >
+
+    <input
+        type="text"
+        placeholder="Caption"
+        class="caption-input"
+    >
+
+    <div id="photo-preview-7"></div>
+
+</div>
+
+
+<div class="photo-editor">
+
+    <strong>Photo 08</strong>
+
+    <input
+        type="file"
+        id="photo-8"
+        accept="image/*"
+    >
+
+    <input
+        type="text"
+        placeholder="Caption"
+        class="caption-input"
+    >
+
+    <div id="photo-preview-8"></div>
+
+</div>
+
+
+<div class="photo-editor">
+
+    <strong>Photo 09</strong>
+
+    <input
+        type="file"
+        id="photo-9"
+        accept="image/*"
+    >
+
+    <input
+        type="text"
+        placeholder="Caption"
+        class="caption-input"
+    >
+
+    <div id="photo-preview-9"></div>
+
+</div>
+
+
+<div class="photo-editor">
+
+    <strong>Photo 10</strong>
+
+    <input
+        type="file"
+        id="photo-10"
+        accept="image/*"
+    >
+
+    <input
+        type="text"
+        placeholder="Caption"
+        class="caption-input"
+    >
+
+    <div id="photo-preview-10"></div>
+    <div class="photo-editor"></div>
+
+</div>
+
+        </section>
+
+
+<!-- =========================
+     PAGE 5
+========================== -->
+
+<section class="editor-card">
+
+    <div class="editor-title">
+
+        <span class="page-number">
+            05
+        </span>
+
+        <div>
+
+            <h2>
+                Things I Love About You
+            </h2>
+
+            <p>
+                Edit the reasons and little things
+                you love about them.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <label>
+        Small Note
+
+        <input
+            type="text"
+            id="love-note"
+            placeholder="Things I love about you"
+        >
+    </label>
+
+
+    <label>
+        Main Title
+
+        <input
+            type="text"
+            id="love-title"
+            placeholder="Why I Love You"
+        >
+    </label>
+
+
+    <!-- LOVE CARD 1 -->
+
+    <label>
+        Love Card 1 Title
+
+        <input
+            type="text"
+            id="love-title-1"
+            placeholder="♡ Your personality"
+        >
+    </label>
+
+    <label>
+        Love Card 1 Message
+
+        <textarea
+            id="love-text-1"
+            rows="5"
+            placeholder="Write something about their personality..."
+        ></textarea>
+    </label>
+
+
+    <!-- LOVE CARD 2 -->
+
+    <label>
+        Love Card 2 Title
+
+        <input
+            type="text"
+            id="love-title-2"
+            placeholder="♡ The way you make me feel"
+        >
+    </label>
+
+    <label>
+        Love Card 2 Message
+
+        <textarea
+            id="love-text-2"
+            rows="5"
+            placeholder="Write something personal..."
+        ></textarea>
+    </label>
+
+
+    <!-- LOVE CARD 3 -->
+
+    <label>
+        Love Card 3 Title
+
+        <input
+            type="text"
+            id="love-title-3"
+            placeholder="♡ The little things"
+        >
+    </label>
+
+    <label>
+        Love Card 3 Message
+
+        <textarea
+            id="love-text-3"
+            rows="5"
+            placeholder="Write about the little things you secretly love..."
+        ></textarea>
+    </label>
+
+</section>
+
+
+
+        <!-- =========================
+             PAGE 6
+        ========================== -->
+
+        <section class="editor-card">
+
+            <div class="editor-title">
+
+                <span class="page-number">
+                    06
+                </span>
+
+                <div>
+                    <h2>
+                        Our Soundtrack
+                    </h2>
+
+                    <p>
+                        Add your Spotify link.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <label>
+    Song 1
+
+    <input
+        type="url"
+        id="spotify-link-1"
+        placeholder="https://open.spotify.com/..."
+    >
+</label>
+
+<label>
+    Song 2
+
+    <input
+        type="url"
+        id="spotify-link-2"
+        placeholder="https://open.spotify.com/..."
+    >
+</label>
+
+<label>
+    Song 3
+
+    <input
+        type="url"
+        id="spotify-link-3"
+        placeholder="https://open.spotify.com/..."
+    >
+</label>
+
+        </section>
+
+
+        <!-- =========================
+     PAGE 7
+========================= -->
+
+<section class="editor-card">
+
+    <div class="editor-title">
+
+        <span class="page-number">
+            07
+        </span>
+
+        <div>
+            <h2>
+                Moving Memories
+            </h2>
+
+            <p>
+                Upload a special video memory.
+            </p>
+        </div>
+
+    </div>
+
+
+    <label>
+
+        Video
+
+        <input
+            type="file"
+            id="video-1"
+            accept="video/*"
+        >
+
+    </label>
+
+
+    <div id="video-preview-1"></div>
+
+</section>
+
+<!-- =========================
+     PAGE 8 — OPEN WHEN
+========================== -->
+
+<section class="editor-card">
+
+    <div class="editor-title">
+
+        <span class="page-number">
+            08
+        </span>
+
+        <div>
+            <h2>
+                Open When...
+            </h2>
+
+            <p>
+                Write special messages for different moments.
+            </p>
+        </div>
+
+    </div>
+
+
+    <label>
+
+        When you're sad
+
+        <textarea
+            id="open-when-sad"
+            rows="6"
+            placeholder="Write something comforting..."
+        ></textarea>
+
+    </label>
+
+
+    <label>
+
+        When you miss me
+
+        <textarea
+            id="open-when-miss"
+            rows="6"
+            placeholder="Write something sweet..."
+        ></textarea>
+
+    </label>
+
+
+    <label>
+
+        When you need a reminder
+
+        <textarea
+            id="open-when-reminder"
+            rows="6"
+            placeholder="Write a reminder of how much you love them..."
+        ></textarea>
+
+    </label>
+
+</section>
+
+
+<!-- =========================
+     PAGE 9
+========================== -->
+
+<section class="editor-card">
+
+    <div class="editor-title">
+
+        <span class="page-number">
+            09
+        </span>
+
+        <div>
+            <h2>
+                Your Letter
+            </h2>
+
+            <p>
+                Your personal birthday letter.
+            </p>
+        </div>
+
+    </div>
+
+
+    <label>
+
+        Letter
+
+        <textarea
+            id="letter-text"
+            rows="12"
+            placeholder="Write your letter..."
+        ></textarea>
+
+    </label>
+
+</section>
+
+
+        <!-- =========================
+             SAVE
+        ========================== -->
+
+        <div class="save-area">
+
+            <button
+                id="save-button"
+                class="save-button"
+            >
+                Save Changes ♡
+            </button>
+
+            <button
+                id="reset-button"
+                class="reset-button"
+            >
+                Reset
+            </button>
+
+            <p id="save-status"></p>
+
+        </div>
+
+
+    </main>
+
+
+    <script src="admin.js"></script>
+
+</body>
+
+</html>
